@@ -42,12 +42,12 @@ namespace UserMgt.BLL.Configurations.Extension
             services.AddTransient<IJWTAuthenticator, JwtAuthenticator>();
         }
 
-        public static IServiceCollection SeedData(this IServiceCollection services)
+        public static IServiceCollection SeedData(this IServiceCollection services, IConfiguration configuration)
         {
-            /*services.AddDbContext<UserDbContext>(options =>
+            services.AddDbContext<UserDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            });*/
+            });
 
             services.AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<UserDbContext>()

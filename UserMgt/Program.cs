@@ -15,7 +15,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 
 
 
-//builder.Services.SeedData(builder.Configuration);
+builder.Services.SeedData(builder.Configuration);
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddAuthorization();
 var app = builder.Build();
