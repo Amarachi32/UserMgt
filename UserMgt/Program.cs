@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
 using UserMgt.BLL.Configurations.Extension;
-using UserMgt.BLL.Configurations.mapping;
 using UserMgt.BLL.Interface;
-using UserMgt.DAL.Context;
 using UserMgt.DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);

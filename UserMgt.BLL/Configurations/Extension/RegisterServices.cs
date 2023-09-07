@@ -17,12 +17,12 @@ namespace UserMgt.BLL.Configurations.Extension
     {
         public static void RegisterService(this IServiceCollection services, IConfiguration config)
         {
-            
 
-          /*  using (var serviceProvider = services.BuildServiceProvider())
-            {
-                config = serviceProvider.GetService<IConfiguration>();
-            }*/
+
+            /*  using (var serviceProvider = services.BuildServiceProvider())
+              {
+                  config = serviceProvider.GetService<IConfiguration>();
+              }*/
 
             services.AddDbContext<UserDbContext>(options =>
             {
