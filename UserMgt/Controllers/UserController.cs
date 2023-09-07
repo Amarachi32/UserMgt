@@ -20,8 +20,9 @@ namespace UserMgt.Controllers
         }
 
 
-        [HttpPut("updateUser")]
+        [HttpPut]
         [Authorize]
+        [SwaggerOperation(Summary = "full update", Description = "request for partial updates")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateRequestDto model)
         {
 
@@ -34,6 +35,7 @@ namespace UserMgt.Controllers
 
             return Ok(new { message = "user details updated successfully" });
         }
+
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status404NotFound, "User Update Unsucessful")]
@@ -77,8 +79,9 @@ namespace UserMgt.Controllers
         }
 
 
-        [HttpGet("getUsers")]
+        [HttpGet("Users")]
         [Authorize]
+        [SwaggerOperation(Summary = "Get all users")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
@@ -86,8 +89,9 @@ namespace UserMgt.Controllers
         }
 
 
-        [HttpGet("getUser")]
+        [HttpGet("{id}")]
         [Authorize]
+        [SwaggerOperation(Summary = "Get one user")]
         public async Task<IActionResult> GetUserById(string userId)
         {
             try
@@ -103,7 +107,7 @@ namespace UserMgt.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("deleteUser")]
+        [HttpDelete]
         [SwaggerResponse(StatusCodes.Status404NotFound, "failed to delete.")]
         [SwaggerOperation(Summary = "Delete USer Account")]
         public async Task<IActionResult> DeleteUser(string id)

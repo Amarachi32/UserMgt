@@ -20,11 +20,11 @@ namespace UserMgt.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
         [ValidationFilter]
+        [Route(("User"))]
         // [ServiceFilter(typeof(ValidationFilterAttribute))]
         [SwaggerOperation(Summary = "Creates user")]
-        [SwaggerResponse(StatusCodes.Status201Created, Description = "UserId of created user pls confirm your email", Type = typeof(RegisterDto))]
+        [SwaggerResponse(StatusCodes.Status201Created, Description = "User Created Successfully", Type = typeof(RegisterDto))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, Description = "User with provided email already exists", Type = typeof(ErrorDetails))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, Description = "Failed to create user", Type = typeof(ErrorDetails))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "It's not you, it's us", Type = typeof(ErrorDetails))]
@@ -54,8 +54,12 @@ namespace UserMgt.Controllers
             return BadRequest();
         }
 
-
-        [HttpPost("login")]
+        [HttpPost]
+        [Route(("Auth"))]
+        [SwaggerOperation(Summary = "Authenticate and login in a user")]
+        [SwaggerResponse(StatusCodes.Status200OK, Description = "User login successful", Type = typeof(AuthResponse))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, Description = "Invalid Username and Password", Type = typeof(ErrorDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, Description = "It's not you, it's us", Type = typeof(ErrorDetails))]
         public async Task<AuthResponse> Authenticate([FromBody] LoginDto loginDto)
         {
             AuthResponse response = await _authService.UserLogin(loginDto);
@@ -65,7 +69,8 @@ namespace UserMgt.Controllers
 
         [Authorize]
         [HttpPost]
-        [Route("ChangePassword")]
+        [Route(("password"))]
+        [SwaggerOperation(Summary = "change user password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
         {
             var result = await _authService.ChangePasswordAsync(model);
@@ -82,14 +87,17 @@ namespace UserMgt.Controllers
 
 
 
-        [HttpGet("changepasswordconfirmation")]
-        public IActionResult ChangePasswordConfirmation()
+        [HttpGet]
+        [Route(("password"))]
+        [SwaggerOperation(Summary = "change password confirmed")]
+        public IActionResult ChangePasswordConfirmend()
         {
             return Ok("Password changed successfully. Kindly login with your new password");
         }
 
         [HttpPost]
-        [Route("Logout")]
+        [Route(("logout"))]
+        [SwaggerOperation(Summary = "log a user out")]
         public async Task<IActionResult> Logout()
         {
             await _authService.Logout();
@@ -97,8 +105,10 @@ namespace UserMgt.Controllers
         }
 
 
-        [HttpGet("LogoutConfirmation")]
-        public IActionResult LogoutConfirmation()
+        [HttpGet]
+        [Route(("logout"))]
+        [SwaggerOperation(Summary = "user has beed logged out")]
+        public IActionResult LogoutConfirmed()
         {
             return Ok("You have been successfully logged out");
         }
