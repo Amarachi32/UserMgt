@@ -24,7 +24,6 @@ namespace UserMgt.BLL.Services
             string jwtConfig = _configuration.GetSection("JwtConfig:Secret").Value;
 
             var key = Encoding.ASCII.GetBytes(jwtConfig);
-            string userRole = "User";
 
             IdentityOptions _options = new();
             var claims = new List<Claim>
@@ -35,7 +34,7 @@ namespace UserMgt.BLL.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(_options.ClaimsIdentity.UserIdClaimType, user.Id),
                 new Claim(_options.ClaimsIdentity.UserNameClaimType, user.UserName),
-                new Claim(ClaimTypes.Role, userRole)
+                new Claim(_options.ClaimsIdentity.RoleClaimType, user.Id)
             };
 
             if (additionalClaims != null)

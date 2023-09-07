@@ -59,7 +59,7 @@ namespace UserMgt.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound, "User profile not found.")]
         [SwaggerOperation(Summary = "Get user profile", Description = "Retrieves the user's profile information.")]
         [HttpGet("profile")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> GetUserProfile(string userId)
         {
 
