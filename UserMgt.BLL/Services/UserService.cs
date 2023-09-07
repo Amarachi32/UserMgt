@@ -32,7 +32,7 @@ namespace UserMgt.BLL.Services
 
         public async Task<ProfileResponse> GetUserProfileAsync(string userId)
         {
-           
+
 
             var userProfile = await _userDb.Users
                 .Where(u => u.Id == userId)
@@ -68,7 +68,7 @@ namespace UserMgt.BLL.Services
         }
 
 
-        public async Task<bool> PartialUpdateUserAsync(string userId, [FromBody]JsonPatchDocument<UpdateRequestDto> patchDoc)
+        public async Task<bool> PartialUpdateUserAsync(string userId, [FromBody] JsonPatchDocument<UpdateRequestDto> patchDoc)
         {
             var user = await _userManager.FindByIdAsync(userId);
 

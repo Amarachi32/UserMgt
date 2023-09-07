@@ -1,24 +1,25 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using UserMgt.BLL.Configurations.Extension;
 using UserMgt.BLL.Configurations.mapping;
 using UserMgt.BLL.Interface;
+using UserMgt.DAL.Context;
 using UserMgt.DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.RegisterService();
+builder.Services.RegisterService(builder.Configuration);
 builder.Services.AddSwaggerGenn();
 builder.Services.AddControllers().AddNewtonsoftJson();
 
-//builder.Services.AddAutoMapper(typeof(MappingProfile));
-//builder.Services.AddAutoMapper(Assembly.Load("UserMgt.DAL"));
 
-builder.Services.SeedData(builder.Configuration);
+
+//builder.Services.SeedData(builder.Configuration);
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddAuthorization();
 var app = builder.Build();

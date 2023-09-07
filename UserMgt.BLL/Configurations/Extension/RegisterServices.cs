@@ -5,32 +5,28 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Security.Cryptography.Xml;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using UserMgt.BLL.DTOs.Request;
 using UserMgt.BLL.Interface;
 using UserMgt.BLL.Services;
 using UserMgt.DAL.Context;
 using UserMgt.DAL.Entities;
-using AutoMapper;
 
 namespace UserMgt.BLL.Configurations.Extension
 {
     public static class RegisterServices
     {
-        public static void RegisterService(this IServiceCollection services)
+        public static void RegisterService(this IServiceCollection services, IConfiguration config)
         {
-            IConfiguration config;
+            
 
-            using (var serviceProvider = services.BuildServiceProvider())
+          /*  using (var serviceProvider = services.BuildServiceProvider())
             {
                 config = serviceProvider.GetService<IConfiguration>();
-            }
+            }*/
 
             services.AddDbContext<UserDbContext>(options =>
             {
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(config.GetSection("ConnectionStrings")["DefaultConnection"]!);
 
             });
 
@@ -46,12 +42,12 @@ namespace UserMgt.BLL.Configurations.Extension
             services.AddTransient<IJWTAuthenticator, JwtAuthenticator>();
         }
 
-        public static IServiceCollection SeedData(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection SeedData(this IServiceCollection services)
         {
-            services.AddDbContext<UserDbContext>(options =>
+            /*services.AddDbContext<UserDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            });
+            });*/
 
             services.AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<UserDbContext>()
@@ -97,6 +93,7 @@ namespace UserMgt.BLL.Configurations.Extension
                 }
             }
         }
+
         public static void AddSwaggerGenn(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
