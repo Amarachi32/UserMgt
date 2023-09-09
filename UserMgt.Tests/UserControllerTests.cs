@@ -27,7 +27,6 @@ namespace UserMgt.Tests
             // Arrange
             var userId = "123";
             var updateRequestDto = new UpdateRequestDto();
-            // Configure the UserService to return a success result
             A.CallTo(() => _userService.UpdateUserAsync(userId, updateRequestDto))
                 .Returns(Task.FromResult(true));
 

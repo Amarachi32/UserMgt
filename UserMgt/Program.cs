@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Swashbuckle.AspNetCore.SwaggerUI;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using UserMgt.BLL.Configurations.Extension;
 using UserMgt.BLL.Interface;
 using UserMgt.DAL.Entities;
@@ -10,7 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterService(builder.Configuration);
-builder.Services.AddSwaggerGenn();
+//builder.Services.AddSwaggerGenn();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+    {
+        Description = "Standard Authorization Header Using the Bearer Scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    options.EnableAnnotations();
+    options.UseInlineDefinitionsForEnums();
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 
@@ -28,7 +45,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserMgt API v1");
-        c.DocExpansion(DocExpansion.List);
     });
 }
 

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 using UserMgt.BLL.DTOs.Request;
 using UserMgt.BLL.Interface;
 using UserMgt.BLL.Services;
@@ -17,12 +15,6 @@ namespace UserMgt.BLL.Configurations.Extension
     {
         public static void RegisterService(this IServiceCollection services, IConfiguration config)
         {
-
-
-            /*  using (var serviceProvider = services.BuildServiceProvider())
-              {
-                  config = serviceProvider.GetService<IConfiguration>();
-              }*/
 
             services.AddDbContext<UserDbContext>(options =>
             {
@@ -93,27 +85,5 @@ namespace UserMgt.BLL.Configurations.Extension
                 }
             }
         }
-
-        public static void AddSwaggerGenn(this IServiceCollection services)
-        {
-            services.AddSwaggerGen(options =>
-            {
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-                {
-                    Description = "please insert a token",
-                    In = ParameterLocation.Header,
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "Bearer"
-                });
-
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "UserMgt API", Version = "v1" });
-                options.EnableAnnotations();
-                options.UseInlineDefinitionsForEnums();
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-            });
-        }
-
     }
 }
